@@ -30,7 +30,7 @@ export function Footer() {
               <div className="leading-tight">
                 <div className="font-serif text-2xl text-gold-gradient transition-all duration-500 group-hover:brightness-125">Virtual Couture</div>
                 <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground mt-1">
-                  AI Saree Atelier
+                  AI Saree Studio
                 </div>
               </div>
             </Link>

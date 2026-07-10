@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { History as HistoryIcon, Sparkles, ArrowRight } from "lucide-react";
-import { SiteNav } from "@/components/site-nav";
-import { getHistory, type TryOnEntry } from "@/lib/tryon-store";
+import { SiteNav } from "@/views/components/site-nav";
+import { getHistory, type TryOnEntry } from "@/models/lib/tryon-store";
 
 export const Route = createFileRoute("/history")({
   head: () => ({
@@ -23,7 +23,7 @@ function HistoryPage() {
   return (
     <div className="min-h-screen">
       <SiteNav />
-      <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8">
+      <div className="mx-auto max-w-7xl px-5 pt-24 pb-10 sm:px-8">
         <div className="flex items-center gap-2 text-xs uppercase tracking-[0.32em] text-primary">
           <HistoryIcon className="h-3.5 w-3.5" /> Your fittings
         </div>
@@ -41,7 +41,7 @@ function HistoryPage() {
             </span>
             <div className="font-serif text-2xl">No fittings yet</div>
             <p className="max-w-sm text-sm text-muted-foreground">
-              Head to the atelier and try on your first saree — it'll appear here.
+              Head to the studio and try on your first saree — it'll appear here.
             </p>
             <Link
               to="/"

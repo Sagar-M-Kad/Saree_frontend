@@ -1,10 +1,10 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useRef, useState, useEffect } from "react";
 import { ArrowLeft, Camera, Upload, Sparkles, RefreshCw, Loader2 } from "lucide-react";
-import { SiteNav } from "@/components/site-nav";
-import { getSaree } from "@/data/sarees";
-import { saveEntry, newId } from "@/lib/tryon-store";
-import { composeTryOn } from "@/lib/composite";
+import { SiteNav } from "@/views/components/site-nav";
+import { getSaree } from "@/models/data/sarees";
+import { saveEntry, newId } from "@/models/lib/tryon-store";
+import { composeTryOn } from "@/controllers/lib/composite";
 
 export const Route = createFileRoute("/try-on/$id")({
   loader: ({ params }) => {
@@ -42,7 +42,7 @@ function TryOn() {
   async function startCamera() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 1280 } },
+        video: { facingMode: "user", width: { ideal: 1080 }, height: { ideal: 1920 } },
         audio: false,
       });
       streamRef.current = stream;
@@ -124,10 +124,10 @@ function TryOn() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <SiteNav />
 
-      <div className="mx-auto max-w-4xl px-5 py-8 sm:px-8">
+      <div className="mx-auto flex-1 w-full max-w-7xl px-5 pt-24 pb-8 sm:px-8 flex flex-col">
         <Link
           to="/saree/$id"
           params={{ id: saree.id }}
@@ -140,38 +140,38 @@ function TryOn() {
           <Sparkles className="h-3.5 w-3.5" />
           Virtual Fitting Room
         </div>
-        <h1 className="mt-2 font-serif text-4xl sm:text-5xl">
+        <h1 className="mt-3 font-serif text-5xl sm:text-6xl md:text-7xl tracking-tight text-foreground">
           Drape the <span className="text-gold-gradient">{saree.name}</span>
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-4 text-sm sm:text-base text-muted-foreground max-w-2xl">
           Add a full-body photo — front facing, plain background works best.
         </p>
 
-        <div className="glass mt-8 overflow-hidden rounded-3xl p-6 sm:p-8">
+        <div className="glass mt-10 flex-1 flex flex-col overflow-hidden rounded-3xl p-6 sm:p-10">
           {mode === "choose" && (
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-8 sm:grid-cols-2 flex-1 place-content-center w-full max-w-5xl mx-auto">
               <button
                 onClick={() => fileRef.current?.click()}
-                className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-10 text-center transition hover:border-primary hover:bg-primary/10"
+                className="group flex flex-col items-center justify-center gap-4 rounded-3xl border-2 border-dashed border-primary/40 bg-primary/5 p-8 text-center transition hover:border-primary hover:bg-primary/10 hover:shadow-lg hover:-translate-y-1 min-h-[280px]"
               >
-                <span className="grid h-14 w-14 place-items-center rounded-full bg-primary/15 text-primary ring-1 ring-primary/30 transition group-hover:scale-105">
-                  <Upload className="h-6 w-6" />
+                <span className="grid h-16 w-16 place-items-center rounded-full bg-primary/15 text-primary ring-1 ring-primary/30 transition group-hover:scale-110">
+                  <Upload className="h-7 w-7" />
                 </span>
                 <div>
-                  <div className="font-serif text-xl">Upload a photo</div>
-                  <div className="text-xs text-muted-foreground">JPG or PNG, up to 10 MB</div>
+                  <div className="font-serif text-xl sm:text-2xl text-foreground">Upload a photo</div>
+                  <div className="mt-1 text-xs text-muted-foreground">JPG or PNG, up to 10 MB</div>
                 </div>
               </button>
               <button
                 onClick={startCamera}
-                className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-10 text-center transition hover:border-primary hover:bg-primary/10"
+                className="group flex flex-col items-center justify-center gap-4 rounded-3xl border-2 border-dashed border-primary/40 bg-primary/5 p-8 text-center transition hover:border-primary hover:bg-primary/10 hover:shadow-lg hover:-translate-y-1 min-h-[280px]"
               >
-                <span className="grid h-14 w-14 place-items-center rounded-full bg-primary/15 text-primary ring-1 ring-primary/30 transition group-hover:scale-105">
-                  <Camera className="h-6 w-6" />
+                <span className="grid h-16 w-16 place-items-center rounded-full bg-primary/15 text-primary ring-1 ring-primary/30 transition group-hover:scale-110">
+                  <Camera className="h-7 w-7" />
                 </span>
                 <div>
-                  <div className="font-serif text-xl">Use camera</div>
-                  <div className="text-xs text-muted-foreground">
+                  <div className="font-serif text-xl sm:text-2xl text-foreground">Use camera</div>
+                  <div className="mt-1 text-xs text-muted-foreground">
                     Capture instantly with your device
                   </div>
                 </div>
@@ -187,14 +187,14 @@ function TryOn() {
           )}
 
           {mode === "camera" && (
-            <div className="flex flex-col items-center gap-4">
-              <div className="relative w-full overflow-hidden rounded-2xl border border-border/60">
+            <div className="flex flex-col items-center gap-4 flex-1 w-full">
+              <div className="relative w-full flex-1 overflow-hidden rounded-2xl border border-border/60 min-h-[50vh]">
                 <video
                   ref={videoRef}
                   autoPlay
                   playsInline
                   muted
-                  className="aspect-[3/4] w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div className="pointer-events-none absolute inset-0 ring-2 ring-inset ring-primary/30" />
               </div>
@@ -220,11 +220,11 @@ function TryOn() {
           )}
 
           {mode === "preview" && photo && (
-            <div className="flex flex-col items-center gap-5">
-              <div className="relative overflow-hidden rounded-2xl border border-border/60">
-                <img src={photo} alt="Your photo" className="max-h-[60vh] object-contain" />
+            <div className="flex flex-col items-center gap-5 flex-1 justify-center w-full">
+              <div className="relative w-full overflow-hidden rounded-2xl border border-border/60 flex-1 flex items-center justify-center min-h-[50vh]">
+                <img src={photo} alt="Your photo" className="absolute inset-0 h-full w-full object-contain p-2" />
               </div>
-              <div className="flex flex-wrap justify-center gap-3">
+              <div className="flex flex-wrap justify-center gap-3 shrink-0">
                 <button
                   onClick={() => {
                     setPhoto(null);
@@ -245,7 +245,7 @@ function TryOn() {
           )}
 
           {mode === "processing" && (
-            <div className="flex flex-col items-center gap-8 py-8 reveal-up">
+            <div className="flex flex-col items-center gap-8 py-8 reveal-up flex-1 justify-center">
               <div className="relative w-full max-w-sm overflow-hidden border border-border bg-card p-2 shadow-xl">
                 <div className="relative overflow-hidden bg-card/40">
                   {photo && <img src={photo} alt="Processing" className="w-full max-h-[50vh] object-contain opacity-90 contrast-[1.05]" />}

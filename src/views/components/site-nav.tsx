@@ -4,24 +4,11 @@ import { Menu, Sparkles, History, Home, X } from "lucide-react";
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <>
-      <header className={`sticky top-0 z-40 transition-all duration-500 ${scrolled ? "pt-4 pb-2" : "glass border-b border-border/40 py-4"}`}>
-        <div className={`mx-auto flex max-w-7xl items-center justify-between transition-all duration-500 ${
-            scrolled 
-              ? "glass-premium rounded-full border border-primary/30 px-6 py-2 shadow-2xl w-[calc(100%-2rem)] sm:w-[calc(100%-4rem)] xl:w-full" 
-              : "px-5 sm:px-8 w-full"
-          }`}>
+      <header className="fixed top-0 inset-x-0 z-50 pt-4 pb-2 pointer-events-none">
+        <div className="mx-auto flex max-w-7xl items-center justify-between bg-card rounded-full border border-primary/30 px-6 py-2 shadow-2xl w-[calc(100%-2rem)] sm:w-[calc(100%-4rem)] xl:w-[calc(100%-4rem)] pointer-events-auto transition-all duration-500">
           <Link to="/" className="group flex items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-full bg-primary/10 ring-1 ring-primary/40 transition-all group-hover:bg-primary/20 group-hover:scale-105 group-hover:shadow-[0_0_15px_var(--gold)/30]">
               <Sparkles className="h-4 w-4 text-primary transition-transform group-hover:rotate-12" />
@@ -29,7 +16,7 @@ export function SiteNav() {
             <div className="leading-tight">
               <div className="font-serif text-lg text-gold-gradient transition-all group-hover:brightness-125">Virtual Couture</div>
               <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-                AI Saree Atelier
+                AI Saree Studio
               </div>
             </div>
           </Link>

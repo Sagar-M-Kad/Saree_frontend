@@ -1,8 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft, Sparkles, Check } from "lucide-react";
-import { SiteNav } from "@/components/site-nav";
-import { getSaree, formatPrice } from "@/data/sarees";
+import { SiteNav } from "@/views/components/site-nav";
+import { getSaree, formatPrice } from "@/models/data/sarees";
 
 export const Route = createFileRoute("/saree/$id")({
   loader: ({ params }) => {
@@ -48,7 +48,7 @@ function SareeDetail() {
     <div className="min-h-screen">
       <SiteNav />
 
-      <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8">
+      <div className="mx-auto max-w-7xl px-5 pt-24 pb-8 sm:px-8">
         <Link
           to="/"
           className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.28em] text-muted-foreground transition hover:text-primary"
@@ -56,7 +56,7 @@ function SareeDetail() {
           <ArrowLeft className="h-3.5 w-3.5" /> Back to collection
         </Link>
 
-        <div className="mt-6 grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+        <div className="mt-6 grid gap-10 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
           {/* Gallery */}
           <div className="reveal-up relative">
             <div className="relative overflow-hidden glass-premium">
@@ -69,7 +69,7 @@ function SareeDetail() {
                   className="h-full w-full object-cover transition-transform duration-700 ease-out"
                   style={{ transform: transformByAngle[angle] }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/60 pointer-events-none" />
+
                 <span className="absolute left-5 top-5 rounded-full border border-primary/20 bg-white/80 px-4 py-1.5 text-[10px] uppercase tracking-[0.28em] text-primary backdrop-blur shadow-sm">
                   {angle} view
                 </span>
@@ -94,8 +94,7 @@ function SareeDetail() {
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                       style={{ transform: transformByAngle[a] }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent transition-opacity group-hover:opacity-80" />
-                    <span className="absolute inset-x-0 bottom-2 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+                    <span className="absolute inset-x-0 bottom-2 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-primary text-shadow-light">
                       {a}
                     </span>
                   </div>
@@ -105,7 +104,7 @@ function SareeDetail() {
           </div>
 
           {/* Info */}
-          <div className="reveal-up flex flex-col gap-6 lg:pt-4" style={{ animationDelay: '200ms' }}>
+          <div className="reveal-up flex flex-col gap-6 xl:pt-4" style={{ animationDelay: '200ms' }}>
             <div className="flex items-center gap-2 text-xs uppercase tracking-[0.32em] text-primary">
               <Sparkles className="h-4 w-4 animate-pulse" />
               {saree.category} · Try-on ready

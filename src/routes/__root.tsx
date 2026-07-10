@@ -9,9 +9,9 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
-import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
-import { Footer } from "@/components/footer";
+import appCss from "../views/styles.css?url";
+import { reportLovableError } from "../controllers/lib/lovable-error-reporting";
+import { Footer } from "@/views/components/footer";
 
 function NotFoundComponent() {
   return (
@@ -78,15 +78,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Virtual Couture — AI Saree Try-On Atelier" },
+      { title: "Virtual Couture — AI Saree Try-On Studio" },
       { name: "description", content: "An AI-powered saree virtual try-on boutique. Drape hand-picked silks, cottons and georgettes over your own photo in seconds." },
       { name: "author", content: "Virtual Couture" },
-      { property: "og:title", content: "Virtual Couture — AI Saree Try-On Atelier" },
+      { property: "og:title", content: "Virtual Couture — AI Saree Try-On Studio" },
       { property: "og:description", content: "An AI-powered saree virtual try-on boutique. Drape hand-picked silks, cottons and georgettes over your own photo in seconds." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Virtual Couture — AI Saree Try-On Atelier" },
+      { name: "twitter:title", content: "Virtual Couture — AI Saree Try-On Studio" },
       { name: "twitter:description", content: "An AI-powered saree virtual try-on boutique. Drape hand-picked silks, cottons and georgettes over your own photo in seconds." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/42212a63-6604-4187-bd2e-70ce71548e0e/id-preview-4f843c85--fde4afb9-0d9e-4e07-b548-0eb192ec97aa.lovable.app-1783333690290.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/42212a63-6604-4187-bd2e-70ce71548e0e/id-preview-4f843c85--fde4afb9-0d9e-4e07-b548-0eb192ec97aa.lovable.app-1783333690290.png" },

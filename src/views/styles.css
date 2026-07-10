@@ -1,5 +1,5 @@
 @import "tailwindcss" source(none);
-@source "../src";
+@source "../";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -175,6 +175,15 @@
 @utility text-gold-gradient {
   color: var(--color-primary); 
   font-weight: 500;
+  text-shadow: 0 2px 15px rgba(255, 255, 255, 0.5);
+}
+
+@utility text-shadow-light {
+  text-shadow: 0 2px 15px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 255, 255, 0.4);
+}
+
+@utility text-shadow-dark {
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 0, 0, 0.4);
 }
 
 @utility btn-gold {

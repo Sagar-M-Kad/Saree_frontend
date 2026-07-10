@@ -21,7 +21,11 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/views/components/*"],
+      "@/data/*": ["./src/models/data/*"],
+      "@/hooks/*": ["./src/controllers/hooks/*"],
+      "@/lib/*": ["./src/controllers/lib/*"]
     }
   }
 }

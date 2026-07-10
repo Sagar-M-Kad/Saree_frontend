@@ -13,8 +13,8 @@ import {
   Check,
   Share2,
 } from "lucide-react";
-import { SiteNav } from "@/components/site-nav";
-import { getEntry, type TryOnEntry } from "@/lib/tryon-store";
+import { SiteNav } from "@/views/components/site-nav";
+import { getEntry, type TryOnEntry } from "@/models/lib/tryon-store";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/result/$id")({
@@ -209,166 +209,193 @@ function Result() {
   }
 
   return (
-    <div className="min-h-screen">
-      <SiteNav />
+    <div className="min-h-screen relative overflow-hidden bg-background">
+      {/* Dynamic Saree Ambient Background */}
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-40 dark:opacity-20 transition-opacity duration-1000">
+        <img
+          src={entry.sareeImage || resultSrc}
+          className="h-full w-full object-cover blur-[100px] scale-110 saturate-150"
+          alt=""
+        />
+        <div className="absolute inset-0 bg-background/60 backdrop-blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background" />
+      </div>
 
-      <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
-        <Link
-          to="/saree/$id"
-          params={{ id: entry.sareeId }}
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.28em] text-muted-foreground hover:text-primary"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" /> Try another saree
-        </Link>
+      <div className="relative z-10">
+        <SiteNav />
 
-        <div className="mt-6 flex items-center gap-2 text-xs uppercase tracking-[0.32em] text-primary">
-          <Sparkles className="h-3.5 w-3.5" /> Your Virtual Fitting
-        </div>
-        <h1 className="mt-2 font-serif text-4xl sm:text-5xl">
-          You in the <span className="text-gold-gradient">{entry.sareeName}</span>
-        </h1>
+        <div className="mx-auto max-w-6xl px-5 pt-24 pb-16 sm:px-8">
+          <Link
+            to="/saree/$id"
+            params={{ id: entry.sareeId }}
+            className="reveal-up inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.28em] text-muted-foreground hover:text-primary transition-colors"
+            style={{ animationDelay: "100ms" }}
+          >
+            <ArrowLeft className="h-3.5 w-3.5" /> Try another drape
+          </Link>
 
-        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
-          {/* Generated composite */}
-          <div className="float-up">
-            <div className="glass relative overflow-hidden rounded-3xl p-2">
-              <div className="relative overflow-hidden rounded-2xl">
-                <div className="relative aspect-[3/4] w-full">
-                  <img
-                    src={resultSrc}
-                    alt={`You wearing the ${entry.sareeName}`}
-                    className="h-full w-full object-cover"
-                  />
-                  <span className="absolute left-3 top-3 rounded-full border border-primary/40 bg-background/70 px-2.5 py-1 text-[10px] uppercase tracking-[0.24em] text-primary backdrop-blur">
-                    Your fitting
-                  </span>
+          <div 
+            className="reveal-up mt-8 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.32em] text-primary/80"
+            style={{ animationDelay: "200ms" }}
+          >
+            <Sparkles className="h-4 w-4 text-primary" /> Your Virtual Fitting
+          </div>
+          
+          <h1 
+            className="reveal-up mt-3 font-serif text-5xl sm:text-6xl md:text-7xl tracking-tight text-foreground text-shadow-light"
+            style={{ animationDelay: "300ms" }}
+          >
+            You in the <span className="text-gold-gradient italic">{entry.sareeName}</span>
+          </h1>
+
+          <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-start">
+            {/* Generated composite */}
+            <div className="float-up" style={{ animationDelay: "500ms" }}>
+              <div className="glass-premium relative overflow-hidden p-2.5 sm:p-3 group shadow-2xl shadow-primary/5">
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/40 via-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="relative overflow-hidden rounded-2xl ring-1 ring-border/50">
+                  <div className="relative aspect-[3/4] w-full">
+                    <img
+                      src={resultSrc}
+                      alt={`You wearing the ${entry.sareeName}`}
+                      className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 shimmer pointer-events-none opacity-40 mix-blend-overlay" />
+                    <span className="absolute left-4 top-4 rounded-full border border-white/20 bg-black/30 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.24em] text-white backdrop-blur-md shadow-sm text-shadow-dark">
+                      Your fitting
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-6 flex flex-wrap gap-3">
+                <button
+                  onClick={downloadImage}
+                  className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-card/60 backdrop-blur-md px-5 py-2.5 text-sm font-medium hover:border-primary/50 hover:bg-card shadow-sm transition-all hover:-translate-y-0.5"
+                >
+                  <Download className="h-4 w-4" /> Save High-Res
+                </button>
+                <button
+                  onClick={nativeShare}
+                  className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-card/60 backdrop-blur-md px-5 py-2.5 text-sm font-medium hover:border-primary/50 hover:bg-card shadow-sm transition-all hover:-translate-y-0.5"
+                >
+                  <Share2 className="h-4 w-4" /> Share...
+                </button>
+                <button
+                  onClick={copyLink}
+                  className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-card/60 backdrop-blur-md px-5 py-2.5 text-sm font-medium hover:border-primary/50 hover:bg-card shadow-sm transition-all hover:-translate-y-0.5"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="h-4 w-4 text-primary" /> Link copied
+                    </>
+                  ) : (
+                    <>{isUploading ? "Generating Link..." : "Copy Link"}</>
+                  )}
+                </button>
+              </div>
+              <p className="mt-4 text-[11px] text-muted-foreground/80 leading-relaxed max-w-md">
+                On mobile, Share attaches the image directly. On desktop, we save the
+                image so you can easily attach it to your emails or chats.
+              </p>
+            </div>
+
+            {/* Share panel */}
+            <div className="float-up" style={{ animationDelay: "700ms" }}>
+              <div className="glass-premium rounded-3xl p-7 sm:p-8 relative overflow-hidden">
+                <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
+                <div className="relative z-10">
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.32em] text-primary/80 text-shadow-light">Share your look</div>
+                  <h2 className="mt-2 font-serif text-3xl text-foreground text-shadow-light">Send it to someone who'd love it</h2>
+
+                  <div className="mt-8 flex flex-col gap-3.5">
+                    <ShareRowWithInput
+                      icon={<Mail className="h-4 w-4" />}
+                      label="Email"
+                      hint="Recipient email"
+                      value={emailTo}
+                      onChange={setEmailTo}
+                      onClick={openEmail}
+                      cta="Send"
+                    />
+
+                    <ShareRowWithInput
+                      icon={<MessageCircle className="h-4 w-4" />}
+                      label="Business WhatsApp"
+                      hint="Country code + number"
+                      value={waPhone}
+                      onChange={setWaPhone}
+                      onClick={openWhatsApp}
+                      cta="Open"
+                    />
+
+                    <ShareRowWithInput
+                      icon={<Phone className="h-4 w-4" />}
+                      label="SMS"
+                      hint="Mobile number"
+                      value={smsPhone}
+                      onChange={setSmsPhone}
+                      onClick={openSMS}
+                      cta="Send"
+                    />
+
+                    <ShareRow
+                      icon={<QrCode className="h-4 w-4" />}
+                      label="Scan & Save"
+                      hint="Download to your phone instantly"
+                      onClick={() => setShowQR(true)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="mt-4 flex flex-wrap gap-3">
-              <button
-                onClick={downloadImage}
-                className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/40 px-4 py-2 text-sm hover:border-primary/60"
-              >
-                <Download className="h-4 w-4" /> Save image
-              </button>
-              <button
-                onClick={nativeShare}
-                className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/40 px-4 py-2 text-sm hover:border-primary/60"
-              >
-                <Share2 className="h-4 w-4" /> Share image…
-              </button>
-              <button
-                onClick={copyLink}
-                className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/40 px-4 py-2 text-sm hover:border-primary/60"
-              >
-                {copied ? (
-                  <>
-                    <Check className="h-4 w-4 text-primary" /> Link copied
-                  </>
-                ) : (
-                  <>{isUploading ? "Generating Link..." : "Copy share link"}</>
-                )}
-              </button>
-            </div>
-            <p className="mt-3 text-[11px] text-muted-foreground">
-              On mobile, Share attaches the image directly. On desktop, we save the
-              image so you can attach it to your email / chat.
-            </p>
           </div>
+        </div>
 
-          {/* Share panel */}
-          <div className="float-up">
-            <div className="glass rounded-3xl p-6 sm:p-7">
-              <div className="text-xs uppercase tracking-[0.32em] text-primary">Share your look</div>
-              <h2 className="mt-1 font-serif text-2xl">Send it to someone who'd love it</h2>
-
-              <div className="mt-6 flex flex-col gap-3">
-                <ShareRowWithInput
-                  icon={<Mail className="h-4 w-4" />}
-                  label="Email"
-                  hint="Recipient email (optional)"
-                  value={emailTo}
-                  onChange={setEmailTo}
-                  onClick={openEmail}
-                  cta="Send"
-                />
-
-                <ShareRowWithInput
-                  icon={<MessageCircle className="h-4 w-4" />}
-                  label="Business WhatsApp"
-                  hint="Country code + number"
-                  value={waPhone}
-                  onChange={setWaPhone}
-                  onClick={openWhatsApp}
-                  cta="Open"
-                />
-
-                <ShareRowWithInput
-                  icon={<Phone className="h-4 w-4" />}
-                  label="SMS"
-                  hint="Mobile number"
-                  value={smsPhone}
-                  onChange={setSmsPhone}
-                  onClick={openSMS}
-                  cta="Send"
-                />
-
-                <ShareRow
-                  icon={<QrCode className="h-4 w-4" />}
-                  label="QR Code"
-                  hint="Scan to open & download the image"
-                  onClick={() => setShowQR(true)}
+        {showQR && (
+          <div
+            className="fixed inset-0 z-50 grid place-items-center bg-background/80 p-6 backdrop-blur-xl transition-all"
+            onClick={() => setShowQR(false)}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="glass-premium relative flex w-full max-w-sm flex-col items-center gap-6 rounded-3xl p-8 text-center shadow-2xl shadow-primary/10"
+              style={{ animation: "float-up 0.4s both" }}
+            >
+              <button
+                onClick={() => setShowQR(false)}
+                aria-label="Close"
+                className="absolute right-4 top-4 grid h-8 w-8 place-items-center rounded-full border border-border/60 hover:border-primary/60 hover:bg-card transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+              <div className="text-[10px] font-semibold uppercase tracking-[0.32em] text-primary/80">
+                Scan to open & download
+              </div>
+              <div className="font-serif text-3xl">Your Try-On</div>
+              <div className="rounded-2xl bg-white p-5 shadow-inner ring-1 ring-black/5">
+                <QRCodeSVG
+                  value={shareUrl + "?download=1"}
+                  size={200}
+                  bgColor="#ffffff"
+                  fgColor="#2a0a10"
+                  level="M"
                 />
               </div>
+              <p className="text-xs text-muted-foreground leading-relaxed px-2">
+                Scan with any phone camera. The look opens and the image
+                downloads automatically on the scanning device.
+              </p>
+              <button
+                onClick={downloadImage}
+                className="btn-gold w-full mt-2 inline-flex justify-center items-center gap-2 rounded-full px-5 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em]"
+              >
+                <Download className="h-4 w-4" /> Save image now
+              </button>
             </div>
           </div>
-        </div>
+        )}
       </div>
-
-      {showQR && (
-        <div
-          className="fixed inset-0 z-50 grid place-items-center bg-background/70 p-6 backdrop-blur-sm"
-          onClick={() => setShowQR(false)}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="glass-strong relative flex w-full max-w-sm flex-col items-center gap-5 rounded-3xl p-8 text-center"
-            style={{ animation: "float-up 0.4s both" }}
-          >
-            <button
-              onClick={() => setShowQR(false)}
-              aria-label="Close"
-              className="absolute right-4 top-4 grid h-8 w-8 place-items-center rounded-full border border-border/60 hover:border-primary/60"
-            >
-              <X className="h-4 w-4" />
-            </button>
-            <div className="text-xs uppercase tracking-[0.32em] text-primary">
-              Scan to open & download
-            </div>
-            <div className="font-serif text-2xl">Your Try-On</div>
-            <div className="rounded-2xl bg-white p-4">
-              <QRCodeSVG
-                value={shareUrl + "?download=1"}
-                size={220}
-                bgColor="#ffffff"
-                fgColor="#3a0a15"
-                level="M"
-              />
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Scan with any phone camera. The look opens and the image
-              downloads automatically on the scanning device.
-            </p>
-            <button
-              onClick={downloadImage}
-              className="btn-gold inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs font-medium uppercase tracking-[0.18em]"
-            >
-              <Download className="h-4 w-4" /> Save image now
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
